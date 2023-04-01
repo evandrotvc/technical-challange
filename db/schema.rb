@@ -16,7 +16,7 @@ ActiveRecord::Schema[7.0].define(version: 2023_03_30_145822) do
   enable_extension "plpgsql"
 
   create_table "documents", id: :uuid, default: -> { "gen_random_uuid()" }, force: :cascade do |t|
-    t.string "pdf_url", null: false
+    t.binary "pdf_content", null: false
     t.string "description", null: false
     t.jsonb "document_data", default: "{}", null: false
     t.datetime "created_at", null: false

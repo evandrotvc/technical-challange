@@ -47,6 +47,10 @@ gem 'simple_form', '~> 5.1.0'
 
 gem 'sidekiq', '~> 6.2.2'
 
+gem 'prawn'
+gem 'prawn-html'
+# gem 'prawn-rails'
+
 # Use Sass to process CSS
 # gem "sassc-rails"
 

@@ -18,7 +18,7 @@ services:
     command: redis-server
 
   app:
-    container_name: pdf_app
+    container_name: app
     build:
       context: .
       dockerfile: Dockerfile

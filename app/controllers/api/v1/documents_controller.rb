@@ -1,47 +1,41 @@
 
 class Api::V1::DocumentsController < ApplicationController
-    # before_action :set_user, only: %i[show edit update destroy]
+    before_action :set_document, only: %i[update generate_link]
 
     def list
       @documents = Document.all
-      byebug
+
       render json: { documents: @documents }, status: :ok
     end
 
-    def preview
-      pdf = Prawn::Document.new(page_size: 'A4')
-      PrawnHtml.append_html(pdf, "<h1 style='text-align: center'>Just a test {{ customer_name }}</h1>")
-
-      send_data(pdf.render,
+    def generate_link
+      send_data(@document.pdf_content,
         filename: 'hello_world.pdf',
         type: 'application/pdf',
         disposition: 'inline'
       )
-
     end
 
     def create
-      # @document = Document.new(document_params)
-
       teste =  document_params[:document_data]
-      string_with_placeholders = "Hello {{customer_name}}, your age is {{contract_value}}."
+      string_with_placeholders = document_params[:template]
 
       string_with_values = string_with_placeholders.gsub(/\{\{(\w+)\}\}/) { |match|
         key = $1.to_sym
         teste[key].to_s
       }
-
+ 
       pdf = Prawn::Document.new(page_size: 'A4')
       PrawnHtml.append_html(pdf, string_with_values)
+
       @document = Document.new(
         description: document_params[:description],
         document_data: document_params[:document_data],
         pdf_content: pdf.render
       )
-      # send_data(pdf.render,filename: 'hello_world.pdf',type: 'application/pdf',disposition: 'inline')
 
       if @document.save
-        render :show, status: :ok
+        render 'api/v1/documents/show', status: :ok
       else
         render json: { error: @document.errors }, status: :unprocessable_entity
       end
@@ -62,6 +56,10 @@ class Api::V1::DocumentsController < ApplicationController
     end
 
     private
+
+    def set_document
+      @document = Document.find_by!(id: params[:document_id])
+    end
 
     # Only allow a list of trusted parameters through.
     def document_params
