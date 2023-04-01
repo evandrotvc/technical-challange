@@ -1,23 +1,21 @@
 class PdfCreatorService
-    def initialize(document)
-      @document = document
+  def initialize(document)
+    @document = document
+  end
+
+  def translate_html(document_data, template_html)
+    template_html.gsub(/\{\{(\w+)\}\}/) do |_match|
+      key = ::Regexp.last_match(1).to_sym
+      document_data[key].to_s
     end
+  end
 
-    def translate_html(document_data, template_html)
-      html_treated = template_html.gsub(/\{\{(\w+)\}\}/) { |match|
-        key = $1.to_sym
-        document_data[key].to_s
-      }
+  def build_pdf(document_data, template_html)
+    html = translate_html(document_data, template_html)
 
-      html_treated
-    end
+    pdf = Prawn::Document.new(page_size: 'A4')
+    PrawnHtml.append_html(pdf, html)
 
-    def build_pdf(document_data, template_html)
-      html = translate_html(document_data, template_html)
-
-      pdf = Prawn::Document.new(page_size: 'A4')
-      PrawnHtml.append_html(pdf, html)
-
-      @document.pdf_content = pdf.render
-    end
+    @document.pdf_content = pdf.render
+  end
 end

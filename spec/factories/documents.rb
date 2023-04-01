@@ -4,8 +4,8 @@ FactoryBot.define do
     description { Faker::Movie.title }
     document_data do
       {
-        customer_name: "Tomás",
-        contract_value: "R$ 1.990,90",
+        customer_name: 'Tomás',
+        contract_value: 'R$ 1.990,90'
       }
     end
   end

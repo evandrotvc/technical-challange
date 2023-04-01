@@ -14,6 +14,7 @@ RSpec.describe Api::V1::DocumentsController, type: :controller do
       end
 
       before { do_request }
+
       it 'must to return all documents' do
         expect(response).to have_http_status(:ok)
         expect(json['documents']).should_not be_nil
@@ -23,13 +24,12 @@ RSpec.describe Api::V1::DocumentsController, type: :controller do
 
   describe 'POST /create' do
     context 'with valid parameters' do
-
       let(:params) do
         {
           description: 'teste',
           document_data: {
-            customer_name: "Tomás",
-            contract_value: "R$ 1.990,90",
+            customer_name: 'Tomás',
+            contract_value: 'R$ 1.990,90'
           },
           template: '<h1>Hello {{customer_name}} There! The value {{contract_value}}</h1>'
         }
@@ -39,7 +39,7 @@ RSpec.describe Api::V1::DocumentsController, type: :controller do
       end
 
       it 'must to created document' do
-        expect{ do_request }.to change(Document, :count).by(1)
+        expect { do_request }.to change(Document, :count).by(1)
         expect(response).to have_http_status(:ok)
       end
     end
