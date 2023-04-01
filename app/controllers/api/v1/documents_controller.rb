@@ -5,7 +5,7 @@ class Api::V1::DocumentsController < ApplicationController
     def list
       @documents = Document.all
 
-      render json: { documents: @documents }, status: :ok
+      render :list, status: :ok
     end
 
     def generate_link
@@ -35,7 +35,7 @@ class Api::V1::DocumentsController < ApplicationController
       )
 
       if @document.save
-        render 'api/v1/documents/show', status: :ok
+        render :show, status: :ok
       else
         render json: { error: @document.errors }, status: :unprocessable_entity
       end
