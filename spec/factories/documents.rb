@@ -1,6 +1,6 @@
 FactoryBot.define do
   factory :document do
-    pdf_url { Faker::Internet.url(host: 'example.com') }
+    pdf_content { Faker::Internet.url(host: 'example.com') }
     description { Faker::Movie.title }
     document_data do
       {

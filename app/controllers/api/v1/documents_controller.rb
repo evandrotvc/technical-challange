@@ -10,10 +10,7 @@ class Api::V1::DocumentsController < ApplicationController
 
     def preview
       pdf = Prawn::Document.new(page_size: 'A4')
-      # pdf.text "<h1>Hello There!</h1>"
-      customer_name = "Evandro Thalles"
       PrawnHtml.append_html(pdf, "<h1 style='text-align: center'>Just a test {{ customer_name }}</h1>")
-      #
 
       send_data(pdf.render,
         filename: 'hello_world.pdf',
@@ -34,8 +31,20 @@ class Api::V1::DocumentsController < ApplicationController
         teste[key].to_s
       }
 
-      byebug
-      render json: { documents: @documents }, status: :ok
+      pdf = Prawn::Document.new(page_size: 'A4')
+      PrawnHtml.append_html(pdf, string_with_values)
+      @document = Document.new(
+        description: document_params[:description],
+        document_data: document_params[:document_data],
+        pdf_content: pdf.render
+      )
+      # send_data(pdf.render,filename: 'hello_world.pdf',type: 'application/pdf',disposition: 'inline')
+
+      if @document.save
+        render :show, status: :ok
+      else
+        render json: { error: @document.errors }, status: :unprocessable_entity
+      end
     end
 
     def update
