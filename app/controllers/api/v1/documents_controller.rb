@@ -17,22 +17,11 @@ class Api::V1::DocumentsController < ApplicationController
     end
 
     def create
-      teste =  document_params[:document_data]
-      string_with_placeholders = document_params[:template]
+      @document = Document.new(description: document_params[:description],
+        document_data: document_params[:document_data])
 
-      string_with_values = string_with_placeholders.gsub(/\{\{(\w+)\}\}/) { |match|
-        key = $1.to_sym
-        teste[key].to_s
-      }
- 
-      pdf = Prawn::Document.new(page_size: 'A4')
-      PrawnHtml.append_html(pdf, string_with_values)
-
-      @document = Document.new(
-        description: document_params[:description],
-        document_data: document_params[:document_data],
-        pdf_content: pdf.render
-      )
+      PdfCreatorService.new(@document).build_pdf(document_params[:document_data],
+        document_params[:template])
 
       if @document.save
         render :show, status: :ok
