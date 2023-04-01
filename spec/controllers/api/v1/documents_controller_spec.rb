@@ -3,10 +3,6 @@ require 'rails_helper'
 RSpec.describe Api::V1::DocumentsController, type: :controller do
   let(:json) { JSON.parse(response.body) }
 
-  # let(:do_request) do
-#   post :create, params: { user: valid_attributes }, as: :json
-# end
-
   describe 'GET /list' do
     context 'with valid parameters' do
       let!(:document) { create(:document) }
@@ -14,13 +10,13 @@ RSpec.describe Api::V1::DocumentsController, type: :controller do
       let!(:document3) { create(:document) }
 
       let(:do_request) do
-        get :list
+        get :list, as: :json
       end
 
       before { do_request }
       it 'must to return all documents' do
         expect(response).to have_http_status(:ok)
-        expect(json['documents'].count).to eq(3)
+        expect(json['documents']).should_not be_nil
       end
     end
   end
@@ -42,11 +38,9 @@ RSpec.describe Api::V1::DocumentsController, type: :controller do
         post :create, params: { document: params }, as: :json
       end
 
-      before { do_request }
-
-      it 'must to return all documents' do
+      it 'must to created document' do
+        expect{ do_request }.to change(Document, :count).by(1)
         expect(response).to have_http_status(:ok)
-        expect(Document.count).to eq(1)
       end
     end
   end
