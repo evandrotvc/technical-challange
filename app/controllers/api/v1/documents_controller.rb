@@ -17,11 +17,7 @@ class Api::V1::DocumentsController < ApplicationController
   def create
     return update_document if @document.present?
 
-    @document = Document.new(description: document_params[:description],
-      document_data: document_params[:document_data])
-
-    PdfCreatorService.new(@document).build_pdf(document_params[:document_data],
-      document_params[:template])
+    build_pdf
 
     if @document.save
       render :show, status: :ok
@@ -31,6 +27,14 @@ class Api::V1::DocumentsController < ApplicationController
   end
 
   private
+
+  def build_pdf
+    @document = Document.new(description: document_params[:description],
+      document_data: document_params[:document_data])
+
+    PdfCreatorService.new(@document).build_pdf(document_params[:document_data],
+      document_params[:template])
+  end
 
   def update_document
     PdfCreatorService.new(@document).build_pdf(document_params[:document_data],
