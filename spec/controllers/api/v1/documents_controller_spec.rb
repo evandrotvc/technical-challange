@@ -1,13 +1,13 @@
 require 'rails_helper'
 
-RSpec.describe Api::V1::DocumentsController, type: :controller do
-  let(:json) { JSON.parse(response.body) }
+RSpec.describe Api::V1::DocumentsController do
+  let(:json) { response.parsed_body }
 
   describe 'GET /list' do
     context 'with valid parameters' do
-      let!(:document) { create(:document) }
-      let!(:document2) { create(:document) }
-      let!(:document3) { create(:document) }
+      let(:document) { create(:document) }
+      let(:document2) { create(:document) }
+      let(:document3) { create(:document) }
 
       let(:do_request) do
         get :list, as: :json
@@ -56,7 +56,8 @@ RSpec.describe Api::V1::DocumentsController, type: :controller do
             customer_name: 'Evandro',
             contract_value: 'R$ 10.280,80'
           },
-          template: '<h1>Helloo, new document {{customer_name}} There! The value {{contract_value}}</h1>'
+          template: "<h1>Helloo, new document {{customer_name}} There! \
+          The value {{contract_value}}</h1>"
         }
       end
       let(:do_request) do

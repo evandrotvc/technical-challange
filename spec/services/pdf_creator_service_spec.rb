@@ -19,15 +19,17 @@ RSpec.describe PdfCreatorService, type: :service do
   end
 
   describe '#methods' do
-    context 'translate_html' do
+    context 'when translate_html' do
       it 'must return html treated' do
         html_treated = described_instance.translate_html(document_data, html_user)
 
-        expect(html_treated).to eq('<h1> Hello Tomás. The contract value is R$ 1.990,90</h1>')
+        expect(html_treated).to eq(
+          '<h1> Hello Tomás. The contract value is R$ 1.990,90</h1>'
+        )
       end
     end
 
-    context 'build_pdf' do
+    context 'when build_pdf' do
       it 'must build pdf' do
         described_instance.build_pdf(document_data, html_user)
         expect(document.pdf_content).should_not be_nil
