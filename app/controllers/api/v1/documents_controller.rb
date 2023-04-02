@@ -29,16 +29,13 @@ class Api::V1::DocumentsController < ApplicationController
   end
 
   def update
-    respond_to do |format|
-      if @user.update(user_params)
-        format.html do
-          redirect_to user_url(@user), notice: 'User was successfully updated.'
-        end
-        format.json { render :show, status: :ok, location: @user }
-      else
-        format.html { render :edit, status: :unprocessable_entity }
-        format.json { render json: @user.errors, status: :unprocessable_entity }
-      end
+    PdfCreatorService.new(@document).build_pdf(document_params[:document_data],
+      document_params[:template])
+
+    if @document.update(description: document_params[:description],document_data: document_params[:document_data])
+      render :show, status: :ok
+    else
+      render json: { error: @document.errors }, status: :unprocessable_entity
     end
   end
 

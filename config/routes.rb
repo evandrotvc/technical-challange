@@ -5,9 +5,9 @@ Rails.application.routes.draw do
         collection do
           get :list
           post :create
-          put :create
         end
 
+        put :update
         get :generate_link
       end
     end
