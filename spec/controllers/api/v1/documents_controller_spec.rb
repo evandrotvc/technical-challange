@@ -60,12 +60,14 @@ RSpec.describe Api::V1::DocumentsController, type: :controller do
         }
       end
       let(:do_request) do
-        put :update, params: { document_id: document.id , document: params }, as: :json
+        put :update, params: { document_id: document.id, document: params }, as: :json
       end
 
       it 'must to created document' do
         do_request
-        expect { document.reload }.to change(document, :description).from('teste').to('document updated')
+        expect do
+          document.reload
+        end.to change(document, :description).from('teste').to('document updated')
 
         expect(document.document_data['customer_name']).to eq('Evandro')
         expect(document.document_data['contract_value']).to eq('R$ 5.280,80')

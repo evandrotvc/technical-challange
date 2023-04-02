@@ -32,7 +32,8 @@ class Api::V1::DocumentsController < ApplicationController
     PdfCreatorService.new(@document).build_pdf(document_params[:document_data],
       document_params[:template])
 
-    if @document.update(description: document_params[:description],document_data: document_params[:document_data])
+    if @document.update(description: document_params[:description],
+      document_data: document_params[:document_data])
       render :show, status: :ok
     else
       render json: { error: @document.errors }, status: :unprocessable_entity
