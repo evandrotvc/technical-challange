@@ -126,7 +126,11 @@ Agora é possível entrar no http://localhost:3000/ e realizar os testes se todo
 
 ## Tests
 
-No terminal, caso queira rodar os testes, basta rodar o comando anterior e o comando a seguir.
+No terminal, caso queira rodar os testes, basta entrar no container e rodar o comando a seguir.
+```
+docker exec -it app bash
+```
+e depois:
 ```
 rspec
 ```
