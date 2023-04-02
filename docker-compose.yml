@@ -53,27 +53,6 @@ services:
     environment:
       RAILS_ENV: development
     entrypoint: ./entrypoints/setup-db.sh
-  
-  mailcatcher:
-    image: yappabe/mailcatcher
-    ports:
-      - "1025:1025"
-      - "1080:1080"
-  
-  sidekiq:
-    build:
-      context: .
-      dockerfile: Dockerfile
-    depends_on:
-      - app
-      - postgres
-      - redis
-    volumes:
-      - .:/app
-    env_file: .env
-    environment:
-      RAILS_ENV: development
-    entrypoint: chmod +x ./entrypoints/sidekiq-entrypoint.sh
 
 volumes:
   postgres-data:
