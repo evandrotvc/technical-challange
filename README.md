@@ -97,3 +97,51 @@ When the API is called to create a document with the above JSON, the following s
   - With the final HTML, the document should be converted to PDF using any tool available for this
   purpose. After that it should be persisted along with the other data used to create the document, as
   demonstrated above.
+
+
+
+# pdf-app
+## Instalando projeto
+
+É necessário ter Docker e docker-compose. A aplicação roda o banco e o server tudo em docker.
+
+Para instalar o projeto, siga estas etapas:
+
+Setando o .env
+```
+copie o arquivo .env.test com o nome .env
+```
+depois rode
+```
+docker compose build
+```
+
+depois rode
+```
+docker compose up
+```
+
+Se tudo foi instalado com sucesso, estará rodando os containers postgres(port: 5432) e o server(port: 3000), redis.
+Agora é possível entrar no http://localhost:3000/ e realizar os testes se todos os containers executaram corretamente
+
+## Tests
+
+No terminal, caso queira rodar os testes, basta rodar o comando anterior e o comando a seguir.
+```
+rspec
+```
+
+
+
+## Examples
+- POST create
+![alt text](https://github.com/evandrotvc/technical-challange/blob/main/app/assets/images/create.png)
+
+- GET list
+![alt text](https://github.com/evandrotvc/technical-challange/blob/main/app/assets/images/list.png)
+
+- PUT update
+![alt text](https://github.com/evandrotvc/technical-challange/blob/main/app/assets/images/update.png)
+
+- pdf generated
+![alt text](https://github.com/evandrotvc/technical-challange/blob/main/app/assets/images/pdf.png)
