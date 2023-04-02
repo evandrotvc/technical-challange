@@ -56,7 +56,7 @@ RSpec.describe Api::V1::DocumentsController, type: :controller do
             customer_name: 'Evandro',
             contract_value: 'R$ 10.280,80'
           },
-          template: '<h1>Hello, new document {{customer_name}} There! The value {{contract_value}}</h1>'
+          template: '<h1>Helloo, new document {{customer_name}} There! The value {{contract_value}}</h1>'
         }
       end
       let(:do_request) do
