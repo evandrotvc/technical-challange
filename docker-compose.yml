@@ -35,8 +35,6 @@ services:
     read_only: false
     restart: always
     entrypoint: ./entrypoints/docker-entrypoint.sh
-    links:
-      - mailcatcher
 
   app-migrations:
     container_name: pdf-migrations
