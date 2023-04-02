@@ -5,9 +5,7 @@ RSpec.describe Api::V1::DocumentsController do
 
   describe 'GET /list' do
     context 'with valid parameters' do
-      let(:document) { create(:document) }
-      let(:document2) { create(:document) }
-      let(:document3) { create(:document) }
+      let(:documents) { create_list(:document, 3) }
 
       let(:do_request) do
         get :list, as: :json
@@ -41,11 +39,12 @@ RSpec.describe Api::V1::DocumentsController do
       it 'must to created document' do
         expect { do_request }.to change(Document, :count).by(1)
         expect(response).to have_http_status(:ok)
+        expect(json['pdf_url']).to eq("http://test.host/api/v1/documents/#{json['id']}/generate_link")
       end
     end
   end
 
-  describe 'PUT /update' do
+  describe 'PUT /create' do
     context 'with valid parameters' do
       let!(:document) { create(:document, description: 'teste') }
 
@@ -61,7 +60,7 @@ RSpec.describe Api::V1::DocumentsController do
         }
       end
       let(:do_request) do
-        put :update, params: { document_id: document.id, document: params }, as: :json
+        put :create, params: { document_id: document.id, document: params }, as: :json
       end
 
       it 'must to created document' do

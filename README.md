@@ -43,8 +43,5 @@ rspec
 - GET list
 ![alt text](https://github.com/evandrotvc/technical-challange/blob/main/app/assets/images/list.png)
 
-- PUT update
-![alt text](https://github.com/evandrotvc/technical-challange/blob/main/app/assets/images/update.png)
-
 - pdf generated
 ![alt text](https://github.com/evandrotvc/technical-challange/blob/main/app/assets/images/pdf.png)

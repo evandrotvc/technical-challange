@@ -1,5 +1,5 @@
 class Api::V1::DocumentsController < ApplicationController
-  before_action :set_document, only: %i[update generate_link]
+  before_action :set_document, only: %i[create generate_link]
 
   def list
     @documents = Document.all
@@ -9,12 +9,14 @@ class Api::V1::DocumentsController < ApplicationController
 
   def generate_link
     send_data(@document.pdf_content,
-      filename: 'hello_world.pdf',
+      filename: 'example.pdf',
       type: 'application/pdf',
       disposition: 'inline')
   end
 
   def create
+    return update_document if @document.present?
+
     @document = Document.new(description: document_params[:description],
       document_data: document_params[:document_data])
 
@@ -28,7 +30,9 @@ class Api::V1::DocumentsController < ApplicationController
     end
   end
 
-  def update
+  private
+
+  def update_document
     PdfCreatorService.new(@document).build_pdf(document_params[:document_data],
       document_params[:template])
 
@@ -40,10 +44,8 @@ class Api::V1::DocumentsController < ApplicationController
     end
   end
 
-  private
-
   def set_document
-    @document = Document.find(params[:document_id])
+    @document = Document.find_by(id: params[:document_id])
   end
 
   # Only allow a list of trusted parameters through.

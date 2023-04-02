@@ -7,7 +7,7 @@ Rails.application.routes.draw do
           post :create
         end
 
-        put :update
+        put :create
         get :generate_link
       end
     end
